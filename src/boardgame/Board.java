@@ -38,13 +38,25 @@ public class Board {
     }
 
     public void placePiece(Piece piece, Position position) {
-        if(thereIsAPiece(position)){
+        if (thereIsAPiece(position)) {
             throw new BoardException("There already is a piece on that position " + position);
         }
         pieces[position.getRow()][position.getCol()] = piece;
         piece.position = position;
     }
 
+    public Piece removePiece(Position position) {
+        if (!positionExits(position)) {
+            throw new BoardException("Position not on the board");
+        }
+        if (piece(position) == null) {
+            return null;
+        }
+        Piece aux = piece(position);
+        aux.position = null;
+        pieces[position.getRow()][position.getCol()] = null;
+        return aux;
+    }
 
     public boolean positionExits(int row, int column) {
         return row >= 0 && row < rows && column >= 0 && column < columns;
